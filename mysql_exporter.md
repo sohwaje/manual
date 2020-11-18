@@ -44,5 +44,5 @@ vi prometheus.yml
 sudo curl -X POST http://10.10.10.1:9090/-/reload
 ```
 
-### Prometheus metrics
+### 3. Prometheus metrics
 ![Alt text](/prometheus_metrics.JPG)
