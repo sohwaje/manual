@@ -46,3 +46,7 @@ sudo curl -X POST http://10.10.10.1:9090/-/reload
 
 ### 3. Prometheus metrics
 ![Alt text](/prometheus_metrics.JPG)
+
+
+
+*** ref: https://hub.docker.com/r/prom/mysqld-exporter ***
