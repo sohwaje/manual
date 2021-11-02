@@ -23,3 +23,15 @@ test
 ```
 ./kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test --from-beginning
 ```
+
+
+### Troubleshooting
+> kafka.common.InconsistentClusterIdException: The Cluster ID _jWF8TmzSuS1px1Po23QUA doesn't match stored clusterId Some(qrDaiotkT5iQBG55lIUqvA) in meta.properties. The broker is trying to join the wrong cluster. Configured zookeeper.connect may be wrong.
+        at kafka.server.KafkaServer.startup(KafkaServer.scala:223)
+        at kafka.Kafka$.main(Kafka.scala:109)
+        at kafka.Kafka.main(Kafka.scala)
+
+```
+cd $KAFKA_LOG_DIR/
+rm -f meta.properties
+```
