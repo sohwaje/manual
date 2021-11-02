@@ -62,6 +62,15 @@ export KAFKA_OPTS="-javaagent:$base_dir/../bin/jmx_prometheus_javaagent-0.12.0.j
 sudo systemctl restart kafka.service
 ```
 
+- 프로메테우스 설정
+```
+sudo vi prometheus.yml
+...
+  - job_name: 'kafka'
+    static_configs:
+      - targets: ['10.7.1.11:7071','10.7.1.14:7071']
+...
+```
 # Troubleshooting
 > kafka.common.InconsistentClusterIdException: The Cluster ID _jWF8TmzSuS1px1Po23QUA doesn't match stored clusterId Some(qrDaiotkT5iQBG55lIUqvA) in meta.properties. The broker is trying to join the wrong cluster. Configured zookeeper.connect may be wrong.
         at kafka.server.KafkaServer.startup(KafkaServer.scala:223)
