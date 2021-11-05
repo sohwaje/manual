@@ -31,6 +31,46 @@ test
 ./kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test --from-beginning
 ```
 
+# Kafka 설정
+
+### 데이터 보관 주기 설정 : 전체
+- 기본값 ***log.retention.hours=168*** 7일 -> ***log.retention.ms=6000*** 1분
+- 기본값 ***log.retention.check.interval.ms=300000*** -> ***log.retention.check.interval.ms=10000*** 10초
+```
+vi /usr/local/kafka/config/server.properties
+
+# The minimum age of a log file to be eligible for deletion due to age
+# 전체 로그 보관 시간 default:168
+#log.retention.hours=168
+# 1min 
+log.retention.ms=60000
+
+# A size-based retention policy for logs. Segments are pruned from the log unless the remaining
+# segments drop below log.retention.bytes. Functions independently of log.retention.hours.
+#log.retention.bytes=1073741824
+
+# The maximum size of a log segment file. When this size is reached a new log segment will be created.
+log.segment.bytes=1073741824
+
+# The interval at which log segments are checked to see if they can be deleted according
+# to the retention policies
+#log.retention.check.interval.ms=300000
+# 10sec
+log.retention.check.interval.ms=10000
+```
+
+- 설정 확인 : log dir에서 아래의 명령어로 확인할 수 있음
+```
+watch -n 30 'du -h'
+```
+- 로그 파일에서도 확인할 수 있음
+```
+...
+[2021-11-05 11:23:14,330] INFO Deleted log /data/Q1L0BQ-0/00000000000000000000.log.deleted. (kafka.log.LogSegment)
+[2021-11-05 11:23:14,337] INFO Deleted offset index /data/Q1L0BQ-0/00000000000000000000.index.deleted. (kafka.log.LogSegment)
+[2021-11-05 11:23:14,337] INFO Deleted time index /data/Q1L0BQ-0/00000000000000000000.timeindex.deleted. (kafka.log.LogSegment)
+...
+```
 # Kafka JMX Monitoring
 - jar 파일과 모니터링 메트릭 설정 파일 다운로드
 ```
