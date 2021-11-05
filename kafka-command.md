@@ -13,6 +13,12 @@ __consumer_offsets
 test
 ```
 
+- 토픽 상세 조회
+    + --bootstrap-server KF01:9092,KF02:9092로 나열할 수 있음
+```
+./kafka-topics.sh --bootstrap-server localhost:9092  --topic TOPIC --describe
+```
+
 ### producer
 - 메시지 보내기
 ```
@@ -80,4 +86,27 @@ sudo vi prometheus.yml
 ```
 cd $KAFKA_LOG_DIR/
 rm -f meta.properties
+```
+- 카프카에서 주키퍼 삭제 시 아래와 같이 ***rmr*** 명령어를 찾을 수 없다는 에러가 뜬다. rmr대신 ***deleteall*** 을 사용해야 한다.
+> Command not found: Command not found rmr
+- 주키퍼 접속
+```
+kafka01]# ./zookeeper-shell.sh zk01:2181,zk02:2181,zk03:2181
+Welcome to ZooKeeper!
+JLine support is disabled
+
+WATCHER::
+
+WatchedEvent state:SyncConnected type:None path:null
+```
+
+- 삭제할 토픽 찾기
+```
+ls /brokers/topics
+[79i6bx, __consumer_offsets]
+```
+
+- 토픽 삭제
+```
+deleteall /kafka01_znode/brokers/topics/79i6bx
 ```
