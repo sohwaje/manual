@@ -1,4 +1,4 @@
-    # Install MySQL5.7 Binary Version
+# Install MySQL5.7 Binary Version
 ```
     $ groupadd mysql
     $ useradd -r -g mysql -s /bin/false mysql
@@ -38,7 +38,7 @@
 
 
     # MySQL 임시 루트 패스워드 변경
-    mysql> alter user 'root'@'localhost' identified by 'tlrhdaleldj!@#';
+    mysql> alter user 'root'@'localhost' identified by 'PASSWORD';
     mysql> flush privileges;
 ```
 ----------
