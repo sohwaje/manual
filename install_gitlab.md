@@ -66,3 +66,4 @@ vim /var/lib/jenkins/.gitconfig
 [http]
         sslCAInfo = /etc/ssl/certs/ca-bundle.crt
 ```
+- [참조](https://stackoverflow.com/questions/39151221/jenkins-git-plugin-peers-certificate-issuer-is-not-recognized/58081546)
