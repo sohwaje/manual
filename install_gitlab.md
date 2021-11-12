@@ -54,3 +54,15 @@ gitlab-rake gitlab:check SANITIZE=true
 ```
 
 # SSL/TLS 설정
+
+
+# 문제해결
+젠킨스에서 git checkout을 실행 할 때  아래와 같은 에러가 생길 수 있다. gitlab에 SSL/TLS 인증서가 적용되어있을 때.
+> fatal: unable to access 'https://git.i-screammedia.com/sigongweb/spring-boot-project/': Peer's Certificate issuer is not recognized.
+아래 ca 정보를 가지고 있는 파일의 경로를 추가하고 Jenkins restart
+```
+vim /var/lib/jenkins/.gitconfig
+...
+[http]
+        sslCAInfo = /etc/ssl/certs/ca-bundle.crt
+```
