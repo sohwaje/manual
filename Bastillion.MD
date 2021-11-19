@@ -12,10 +12,21 @@ docker run -d -p 8080:8080 -p 8443:8443 --net=jump --rm --name jump \
 -v /home/sigongweb/BastillionConfig.properties:/opt/BastillionConfig.properties.tpl \
 -v /home/sigongweb/start.ini:/opt/bastillion/start.ini ecosi/bastillion
 ```
-- ***BastillionConfig.properties*** 를 편집하여 Bastilion이 타겟 서버의 SSH 공개키를 덮어 씌우지 않고 추가하도록 설정한다.
+- ***BastillionConfig.properties*** 를 편집
+    + Bastilion이 타겟 서버의 SSH 공개키를 덮어 씌우지 않고 추가하도록 설정한다.
 ```
 #set to false to disable key management. If false, the Bastillion public key will be appended to the authorized_keys file (instead of it being overwritten completely).
 keyManagementEnabled=false
+```
+    + Two factor 인증 강제
+```
+#enable two-factor authentication with a one-time password - 'required', 'optional', or 'disabled'
+oneTimePassword=required
+```
+    + 세션 타임아웃 늘리기
+```
+#The session time out value of application in minutes
+sessionTimeout=120
 ```
 - ***start.ini*** 편집
 ```
