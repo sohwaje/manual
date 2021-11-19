@@ -8,9 +8,9 @@ Bastilion은 웹 기반 SSH 콘솔. SSH 공개 키를 통해 시스템에 연결
 ```
 docker run -d -p 8080:8080 -p 8443:8443 --net=jump --rm --name jump \
 docker run -d -p 8080:8080 -p 8443:8443 --net=jump --rm --name jump \
--v /home/sigongweb/keydb:/opt/bastillion/jetty/bastillion/WEB-INF/classes/keydb \
--v /home/sigongweb/BastillionConfig.properties:/opt/BastillionConfig.properties.tpl \
--v /home/sigongweb/start.ini:/opt/bastillion/start.ini ecosi/bastillion
+-v /home/user/keydb:/opt/bastillion/jetty/bastillion/WEB-INF/classes/keydb \
+-v /home/user/BastillionConfig.properties:/opt/BastillionConfig.properties.tpl \
+-v /home/user/start.ini:/opt/bastillion/start.ini ecosi/bastillion
 ```
 - ***BastillionConfig.properties*** 를 편집
     + Bastilion이 타겟 서버의 SSH 공개키를 덮어 씌우지 않고 추가하도록 설정한다.
