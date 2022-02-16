@@ -1,24 +1,24 @@
 # CentOS 7/8에서 HA 구성
 
-## 구성
+### 구성
 - NGINX web server 2EA, VIP 1EA
 - web01 10.0.0.2, web02 10.0.0.3
 - VIP(Floating IP) 10.0.0.4
 
-## /etc/host 수정
+### /etc/host 수정
 ```
 vim /etc/hosts
 10.0.0.2 web01
 10.0.0.3 web02
 ```
 
-## ping test
+### ping test
 ```
 ping -c 3 web01
 ping -c 3 web02
 ```
 
-## 패키지 설치
+### 패키지 설치
 - CentOS7
 ```
 yum -y install epel-release
@@ -39,14 +39,13 @@ systemctl start pcsd
 yum -y install nginx
 ```
 
-## ***hacluster*** 계정 패스워드 구성
-## NGINX 구성
+### ***hacluster*** 계정 패스워드 구성
 ```
 passwd hacluster
 Enter new password:
 ```
 
-## 클러스터 구성
+### 클러스터 구성
 - CentOS7
 ```
 pcs cluster auth web01 web02
@@ -94,6 +93,20 @@ echo '<h1>web02</h1>' > /usr/share/nginx/html/index.html
 pcs resource create test_vip ocf:heartbeat:IPaddr2 ip=10.0.0.4 cidr_netmask=32 op monitor interval=30s
 pcs resource create webserver ocf:heartbeat:nginx configfile=/etc/nginx/nginx.conf op monitor timeout="5s" interval="5s"
 pcs status resources
+
+# NGINX에 마이그레이션 임계값을 설정하여 자동으로 새 노드로 마이그레이션 되도록 설정(실패 회수 4)
+pcs resource show webserver
+pcs resource update webserver meta migration-threshold="4"
+```
+
+### 고착성 수치 설정(서버 장애 복구 후 자동 복구 방지)
+- CentOS7
+```
+pcs property set default-resource-stickiness=1000
+```
+- CentOS8
+```
+pcs resource defaults update resource-stikiness=1000
 ```
 
 ### VIP 리소스와 webserver 리소스를 본딩시킴
@@ -128,4 +141,13 @@ pcs status corosync
 ```
 pcs cluster stop web01
 pcs status
+```
+
+#### 실패 회수 확인
+```
+pcs resource failcount show webserver
+```
+#### 실패 회수 재설정: 장애 복구(fail back) 방지 설정을 하지 않으면 복구된 Active 서버로 원복된다.
+```
+pcs resource cleanup webserver
 ```
