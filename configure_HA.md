@@ -4,7 +4,11 @@
 - NGINX web server 2EA, VIP 1EA
 - web01 10.0.0.2, web02 10.0.0.3
 - VIP(Floating IP) 10.0.0.4
-
++----------------------------+
+|                            |
+|         NGINX              |
+|                            |
++----------------------------+
 ### /etc/host 수정
 ```
 vim /etc/hosts
