@@ -1,24 +1,27 @@
 # CentOS 7/8에서 HA 구성
 
 ### 구성
-- NGINX web server 2EA, VIP 1EA
-- web01 10.0.0.2, web02 10.0.0.3
-- VIP(Floating IP) 10.0.0.4
+- NGINX 2EA, VIP 1EA
+- web01(10.0.0.2), web02(10.0.0.3)
+- Floating IP(10.0.0.4)
 
-### /etc/host 수정
+### /etc/hosts 수정(both)
+- /etc/hosts 파일에 노드의 별칭과 IP를 입력하여 클러스터가 노드의 별칭으로 통신할 수 있도록 설정한다.
 ```
 vim /etc/hosts
 10.0.0.2 web01
 10.0.0.3 web02
 ```
 
-### ping test
+### ping test(both)
+- 클러스터에서 네트워크 이슈를 감지하는 방법은 ping, ethmonitor이다.
+- ping을 사용하기 위해서는 노드 간 ICMP 패킷이 허용되어야 한다.
 ```
 ping -c 3 web01
 ping -c 3 web02
 ```
 
-### 패키지 설치
+### 패키지 설치(both)
 - CentOS7
 ```
 yum -y install epel-release
@@ -39,13 +42,15 @@ systemctl start pcsd
 yum -y install nginx
 ```
 
-### ***hacluster*** 계정 패스워드 구성
+### ***hacluster*** 계정 패스워드 구성(both)
+- 클러스터 노드 간 통신하기 위해 서로를 식별할 수 있는 ID/PW
 ```
 passwd hacluster
 Enter new password:
 ```
 
-### 클러스터 구성
+### 클러스터 구성원을 등록한다.
+- 클러스터 이름과 노드 이름은 대문자가 아니라 소문자로 할 것을 권고한다.
 - CentOS7
 ```
 pcs cluster auth web01 web02
@@ -79,7 +84,7 @@ pcs property set stop-orphan-actions=true
 pcs property list
 ```
 
-### NGINX 테스트 페이지 생성
+### NGINX 테스트 페이지 생성(both)
 ```
 #Run Command on 'web01'
 echo '<h1>web01</h1>' > /usr/share/nginx/html/index.html
@@ -101,6 +106,7 @@ pcs resource update webserver meta migration-threshold="4"
 ```
 
 ### 고착성 수치 설정(서버 장애 복구 후 자동 복구 방지)
+- 고착성 수치를 1000으로 설정해서 다른 노드로 리소스가 넘어가지 않도록 설정한다.
 #### webserver
 - CentOS7
 ```
@@ -113,6 +119,7 @@ pcs resource defaults update resource-stikiness=1000
 pcs resource defaults
 ```
 #### VIP
+- VIP 모니터링 리소스를 생성하고 VIP가 다른 노드로 넘어가지 않도록 고착성을 설정한다.
 ```
 # vip 모니터 리소스 생성
 pcs resource create VIP-monitor ethmonitor interface=eth0 clone
@@ -120,8 +127,9 @@ pcs resource
 # 서비스의 다운타임 최소화를 위해 Auto Failback을 방지
 pcs constraint location vip rule score=-INFINITY ethmonitor-eth0 ne 1 
 ```
-### VIP 리소스와 webserver 리소스를 본딩시킴
+### VIP 리소스와 webserver 리소스를 본딩시킴(VIP와 webserver를 단일 노드로 묶는다.)
 ```
+> pcs constraint colocation add <resource id> with <resource id> score
 pcs constraint colocation add test_vip with webserver INFINITY
 ```
 
