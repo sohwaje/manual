@@ -89,8 +89,9 @@ echo '<h1>web02</h1>' > /usr/share/nginx/html/index.html
 ```
 
 ### 리소스 생성
+- eth0에 VIP 할당
 ```
-pcs resource create test_vip ocf:heartbeat:IPaddr2 ip=10.0.0.4 cidr_netmask=32 op monitor interval=30s
+pcs resource create test_vip ocf:heartbeat:IPaddr2 ip=10.0.0.4 cidr_netmask=32 nic=eth0 op monitor interval=30s
 pcs resource create webserver ocf:heartbeat:nginx configfile=/etc/nginx/nginx.conf op monitor timeout="5s" interval="5s"
 pcs status resources
 
@@ -100,6 +101,7 @@ pcs resource update webserver meta migration-threshold="4"
 ```
 
 ### 고착성 수치 설정(서버 장애 복구 후 자동 복구 방지)
+#### webserver
 - CentOS7
 ```
 pcs property set default-resource-stickiness=1000
@@ -110,7 +112,14 @@ pcs resource defaults
 pcs resource defaults update resource-stikiness=1000
 pcs resource defaults
 ```
-
+#### VIP
+```
+# vip 모니터 리소스 생성
+pcs resource create VIP-monitor ethmonitor interface=eth0 clone
+pcs resource
+# 서비스의 다운타임 최소화를 위해 Auto Failback을 방지
+pcs constraint location vip rule score=-INFINITY ethmonitor-eth0 ne 1 
+```
 ### VIP 리소스와 webserver 리소스를 본딩시킴
 ```
 pcs constraint colocation add test_vip with webserver INFINITY
