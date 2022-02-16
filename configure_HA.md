@@ -110,11 +110,6 @@ pcs resource defaults update resource-stikiness=1000
 ```
 
 ### VIP 리소스와 webserver 리소스를 본딩시킴
-- CentOS7
-```
-pcs constraint colocation add test_vip webserver INFINITY
-```
-- CentOS8
 ```
 pcs constraint colocation add test_vip with webserver INFINITY
 ```
