@@ -94,6 +94,7 @@ echo '<h1>web02</h1>' > /usr/share/nginx/html/index.html
 ```
 
 ### 리소스 생성
+#### [1]일반적인 VIP와 APP의 리소스 등록
 - eth0에 VIP를 할당한다. 모든 노드에 동일한 이더넷 포트 이름이 있어야 한다.
 ```
 # VIP 리소스
@@ -106,6 +107,14 @@ pcs status resources
 # NGINX에 마이그레이션 임계값을 설정하여 자동으로 새 노드로 마이그레이션 되도록 설정(실패 회수 4)
 pcs resource show webserver
 pcs resource update webserver meta migration-threshold="4"
+```
+#### [2]systemd app과 VIP를 그룹으로 등록
+- 그룹으로 등록할 경우 [VIP 리소스와 systemd app을 묶는 설정은 하지 않아도 된다.]
+```
+# VIP 리소스를 p_cluster 그룹으로 등록
+pcs resource create test_vip ocf:heartbeat:IPaddr2 ip=10.0.0.4 cidr_netmask=32 nic=eth0 op monitor interval=30s --group p_cluster
+# systemd app 등록
+pcs resource create app_name systemd:systemd-app op monitor timeout=3s interval=5s --group p_cluster
 ```
 
 ### 고착성 수치 설정(서버 장애 복구 후 자동 복구 방지)
