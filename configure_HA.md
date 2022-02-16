@@ -147,7 +147,7 @@ pcs status
 ```
 pcs resource failcount show webserver
 ```
-#### 실패 회수 재설정: 장애 복구(fail back) 방지 설정을 하지 않으면 복구된 Active 서버로 원복된다.
+#### 실패 회수 재설정: [장애 복구(fail back) 방지 설정을 하지 않으면 복구된 Active 서버로 원복된다.](https://github.com/sohwaje/manual/blob/main/configure_HA.md#%EA%B3%A0%EC%B0%A9%EC%84%B1-%EC%88%98%EC%B9%98-%EC%84%A4%EC%A0%95%EC%84%9C%EB%B2%84-%EC%9E%A5%EC%95%A0-%EB%B3%B5%EA%B5%AC-%ED%9B%84-%EC%9E%90%EB%8F%99-%EB%B3%B5%EA%B5%AC-%EB%B0%A9%EC%A7%80)
 ```
 pcs resource cleanup webserver
 ```
