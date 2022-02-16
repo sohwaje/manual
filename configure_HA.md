@@ -103,10 +103,12 @@ pcs resource update webserver meta migration-threshold="4"
 - CentOS7
 ```
 pcs property set default-resource-stickiness=1000
+pcs resource defaults
 ```
 - CentOS8
 ```
 pcs resource defaults update resource-stikiness=1000
+pcs resource defaults
 ```
 
 ### VIP 리소스와 webserver 리소스를 본딩시킴
