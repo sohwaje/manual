@@ -109,7 +109,7 @@ pcs resource show webserver
 pcs resource update webserver meta migration-threshold="4"
 ```
 #### [2]systemd app과 VIP를 그룹으로 등록
-- 그룹으로 등록할 경우 [VIP 리소스와 systemd app을 묶는 설정은 하지 않아도 된다.]
+- 그룹으로 등록할 경우 [VIP 리소스와 systemd app을 묶는 설정은 하지 않아도 된다.](https://github.com/sohwaje/manual/blob/main/configure_HA.md#vip-%EB%A6%AC%EC%86%8C%EC%8A%A4%EC%99%80-webserver-%EB%A6%AC%EC%86%8C%EC%8A%A4%EB%A5%BC-%EB%B3%B8%EB%94%A9%EC%8B%9C%ED%82%B4vip%EC%99%80-webserver%EB%A5%BC-%EB%8B%A8%EC%9D%BC-%EB%85%B8%EB%93%9C%EB%A1%9C-%EB%AC%B6%EB%8A%94%EB%8B%A4)
 ```
 # VIP 리소스를 p_cluster 그룹으로 등록
 pcs resource create test_vip ocf:heartbeat:IPaddr2 ip=10.0.0.4 cidr_netmask=32 nic=eth0 op monitor interval=30s --group p_cluster
