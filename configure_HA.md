@@ -94,10 +94,13 @@ echo '<h1>web02</h1>' > /usr/share/nginx/html/index.html
 ```
 
 ### 리소스 생성
-- eth0에 VIP 할당
+- eth0에 VIP를 할당한다. 모든 노드에 동일한 이더넷 포트 이름이 있어야 한다.
 ```
+# VIP 리소스
 pcs resource create test_vip ocf:heartbeat:IPaddr2 ip=10.0.0.4 cidr_netmask=32 nic=eth0 op monitor interval=30s
+# webserver 리소스
 pcs resource create webserver ocf:heartbeat:nginx configfile=/etc/nginx/nginx.conf op monitor timeout="5s" interval="5s"
+# 리소스 상태 확인
 pcs status resources
 
 # NGINX에 마이그레이션 임계값을 설정하여 자동으로 새 노드로 마이그레이션 되도록 설정(실패 회수 4)
