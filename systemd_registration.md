@@ -9,7 +9,6 @@ User=root
 Group=root
 ExecStart=/root/panopticon.sh start
 ExecStop=/root/panopticon.sh stop
-Restart=on-failure
 
 [Install]
 WantedBy=multi-user.target
