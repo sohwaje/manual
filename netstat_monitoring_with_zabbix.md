@@ -123,3 +123,13 @@ systemctl restart zabbix_agentd
 ## [3] 자빅스 템플릿 만들기
 - Configuration>Templates>Create template
 ![screenshot](https://imgs.developpaper.com/imgs/2021610142602749.png)
+
+## [4] 그래프 구성
+- Configuration>Template>템플릿이름>Graph>Create Graph
+![screenshot](https://imgs.developpaper.com/imgs/2021610142709102.jpg)
+
+## [5] 결과
+![screenshot](https://imgs.developpaper.com/imgs/2021610142759622.jpg)
+
+### ref
+https://developpaper.com/linux-uses-ss-command-combined-with-zabbix-to-monitor-sockets/
