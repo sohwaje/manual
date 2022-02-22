@@ -122,4 +122,4 @@ systemctl restart zabbix_agentd
 ```
 ## [3] 자빅스 템플릿 만들기
 - Configuration>Templates>Create template
-[![screenshot](https://imgs.developpaper.com/imgs/2021610142602749.png "2021610142602749")]
+![screenshot](https://imgs.developpaper.com/imgs/2021610142602749.png)
